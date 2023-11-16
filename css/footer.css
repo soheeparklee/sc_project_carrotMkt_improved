@@ -1,0 +1,30 @@
+footer{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+    position: fixed;
+    bottom: 0;
+    width: 90%;
+    
+    /* border: 1px solid blueviolet; */
+}
+
+.footer-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    height: 60px;
+    margin: 5px;
+}
+.footer-box-icons img{
+    display: flex;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin: 5px 0;
+}
+.footer-box-title{
+    margin: 5px 0;
+}
