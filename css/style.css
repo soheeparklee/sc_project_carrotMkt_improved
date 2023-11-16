@@ -8,7 +8,7 @@ body{
 }
 
 .size-adjust{
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
@@ -17,11 +17,10 @@ body{
     justify-content: center;
     align-items: center;
     background-color: tomato;
-    opacity: 1;
 }
 
-@media screen and (max-width: 500px) and (min-width: 470px) {
+@media screen and (max-width: 700px) and (min-width: 470px) {
     .size-adjust{
-        opacity: 0;
+        display: none;
     }
 }
