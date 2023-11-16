@@ -36,3 +36,13 @@ main{
 .footer-box-title{
     margin: 5px 0;
 }
+
+.footer-box:hover .footer-box-icons{
+    transform: scale(1.2);
+    transition: all 1s ease;
+}
+
+footer-box-icons:hover{
+    transform: scale(1.2);
+    transition: all 1s ease;
+}
