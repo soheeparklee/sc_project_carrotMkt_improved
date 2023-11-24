@@ -15,7 +15,7 @@ async function handleSubmit(event){
     const data= await res.json();
 
     if(data === "200")
-        window.location.pathname= "/login.html";
+        window.location.pathname= "/";
 
     } catch(e){
         console.error(e);
@@ -24,5 +24,4 @@ async function handleSubmit(event){
     console.log("item submitted");
 };
 
-const submitBtn= document.querySelector(".submit_btn")
-submitBtn.addEventListener("submit", handleSubmit);
+form.addEventListener("submit", handleSubmit);
