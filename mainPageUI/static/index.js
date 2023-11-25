@@ -3,7 +3,7 @@
 function calcTime(timestamp){
     const currentTime= new Date().getTime() - 9*60*60*1000;
     //지금 시간 - 백엔드에서 받아온 게시물 입력한 시간 
-    const passedTime= new Date(timestamp - currentTime);
+    const passedTime= new Date(currentTime - timestamp);
     const hour= passedTime.getHours();
     const min= passedTime.getMinutes();
     const sec = passedTime.getSeconds();
@@ -16,9 +16,9 @@ function calcTime(timestamp){
 
 function renderData(data){
     const main= document.querySelector("main");
-    
-    data.reverse().forEach(async(obj)=>{
+    data.reverse().forEach(async(obj) => {
         const itemBox= document.createElement("div");
+        itemBox.className= "item-box"
         main.appendChild(itemBox);
         //image
         const itemBoxImage= document.createElement("div");
@@ -31,7 +31,7 @@ function renderData(data){
 
         //get image
         const res= await fetch (`/images/${obj.id}`)
-        const blob = await res.blob()
+        const blob = await res.blob();
         const url= URL.createObjectURL(blob);
         img.src= url;
 
@@ -51,7 +51,7 @@ function renderData(data){
         const descPlace= document.createElement("div");
         descPlace.className= "desc-location";
         itemBoxDesc.appendChild(descPlace);
-        descPlace.innerHTML= obj.place;
+        descPlace.innerHTML= obj.place + "에서 거래합니다";
 
         const descTime= document.createElement("div");
         descTime.className= "desc-time";
@@ -62,7 +62,7 @@ function renderData(data){
         const descPrice= document.createElement("div");
         descPrice.className= "desc-price";
         itemBoxDesc.appendChild(descPrice);
-        descPrice.innerHTML = obj.price;
+        descPrice.innerHTML = obj.price + "원";
 
 
         

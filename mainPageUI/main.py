@@ -46,23 +46,24 @@ async def create_item(image: UploadFile,
 #GET
 @app.get("/items")
 #access token 추가, 인증되어야지만 아래 명령 보내줄거야
-async def get_items(user= Depends(manager)):
+async def get_items():
 
     #bring column name(각 값들이 무엇을 의미하는지 알기 위해)
-    cur=con.cursor()
+    con.row_factory= sqlite3.Row
+    cur=con.cursor();
     rows= cur.execute(f"""
                     SELECT * from items;
                     """).fetchall()
     return JSONResponse(jsonable_encoder(dict(row) for row in rows))
 
 #GET image
-@app.get("/itmes{item_id}")
-def get_img(item_id):
+@app.get("/images/{item_id}")
+async def get_img(item_id):
     cur=con.cursor();
     image_bytes= cur.execute(f"""
-                        SELECT image from items WHERE id= {item_id}
-                        """).fetchone()[0]
-    return JSONResponse(content= bytes.fromhex(image_bytes))
+                            SELECT image from items WHERE id= {item_id}
+                            """).fetchone()[0]
+    return Response(content= bytes.fromhex(image_bytes))
 
 
 

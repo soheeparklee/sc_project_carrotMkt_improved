@@ -19,7 +19,6 @@ async function handleSubmit(event){
         console.error(e);
     }
 
-    console.log("item submitted");
 };
 
 
