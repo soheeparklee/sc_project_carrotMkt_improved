@@ -15,12 +15,10 @@ function calcTime(timestamp){
 }
 
 function renderData(data){
-
     const main= document.querySelector("main");
-
-    data.reverse.forEach(async(obj)=>{
+    
+    data.reverse().forEach(async(obj)=>{
         const itemBox= document.createElement("div");
-        itemBox.className= "item-box";
         main.appendChild(itemBox);
         //image
         const itemBoxImage= document.createElement("div");
@@ -50,16 +48,16 @@ function renderData(data){
         itemBoxDesc.appendChild(descTitle);
         descTitle.innerHTML= obj.title;
 
-        const descLocation= document.createElement("div");
-        descLocation.className= "desc-location";
-        itemBoxDesc.appendChild(descLocation);
-        descLocation.innerHTML= obj.location;
+        const descPlace= document.createElement("div");
+        descPlace.className= "desc-location";
+        itemBoxDesc.appendChild(descPlace);
+        descPlace.innerHTML= obj.place;
 
         const descTime= document.createElement("div");
         descTime.className= "desc-time";
         itemBoxDesc.appendChild(descTime);
         //add time info
-        descTime.innerHTML= calcTime(obj.insertat);
+        descTime.innerHTML= calcTime(obj.insertAt);
 
         const descPrice= document.createElement("div");
         descPrice.className= "desc-price";
@@ -68,5 +66,13 @@ function renderData(data){
 
 
         
-    })
+    });
 }
+
+async function fetchList(){
+    const res= await fetch("/items")
+    const data= await res.json();
+    renderData(data);
+}
+fetchList();
+

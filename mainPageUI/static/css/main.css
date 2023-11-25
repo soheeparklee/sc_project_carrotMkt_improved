@@ -99,6 +99,7 @@ body{
     text-align: center;
     line-height: 30px;
     padding: 10px;
+    text-decoration: none;
 
     cursor: pointer;
     transition: all 1s ease;

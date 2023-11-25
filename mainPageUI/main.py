@@ -25,21 +25,21 @@ items = []
 #POST
 @app.post("/items")
 async def create_item(image: UploadFile,
-                title: Annotated[str, Form(),],
+                title: Annotated[str, Form()],
                 price: Annotated[int, Form()],
-                description: Annotated[str, Form(),],
-                location: Annotated[str, Form(),],
-                insertat: Annotated[int, Form()]
+                description: Annotated[str, Form()],
+                place: Annotated[str, Form()],
+                insertAt: Annotated[int, Form()]
                 ):
     #이미지는 읽어오는데 시간 많이 걸리니까 
     image_bytes= await image.read()
     #sql lite 문법
     cur.execute(f"""
-                INSERT INTO items(title, image, price, description, loacation, insetat)
-                VALUES("{title}", "{image_bytes.hex()}", {price}, "{description}", "{location}", {insertat})
+                INSERT INTO items(title, image, price, description, place, insertAt)
+                VALUES("{title}", "{image_bytes.hex()}", {price}, "{description}", "{place}", {insertAt})
                 """)
     con.commit()
-    print(title, image, price, description, location, insertat)
+    print(title, image, price, description, place, insertAt)
     return "200"
 
 
