@@ -80,6 +80,7 @@ async def get_img(item_id):
                             """).fetchone()[0]
     return Response(content= bytes.fromhex(image_bytes), media_type="image/*")
 
+### SIGNUP ###
 # POST user (SignUp)
 @app.post("/signup")
 def signup(id: Annotated[str, Form()],
@@ -95,9 +96,26 @@ def signup(id: Annotated[str, Form()],
     print(id, password)
     return "200"
 
-# GET user (Login)
-# @app.get("/login")
-# def login():
-    
+### LOGIN ###
+# 같은 ID, pawword를 가진 사용자가 DB에 있는지 확인하는 함수
+@manager.user_loader()
+def query_user(id):
+        user= (f"""
+            Select * from users WHERE id= "{id}"
+            """).fetchone()
+        return user
+
+# POST user (Login)
+@app.post("/login")
+def login(id: Annotated[str, Form()],
+          password: Annotated[str, Form()]
+          ):
+     user= query_user(id)
+     print(user)
+     return "200"
+
+
+
+
 
 app.mount("/", StaticFiles(directory="static", html=True), name="static")
