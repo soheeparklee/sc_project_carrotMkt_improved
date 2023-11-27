@@ -22,22 +22,22 @@ cur= con.cursor()
 
 # 배포했을 떄도 dbeaver에 의존하는 것이 아니라 바로 이 파일에서 테이블 만들 수 있도록 sql문 삽입
 #배포할 떄마다 테이블이 생성된다면 테이블이 중복되므로, 테이블이 없을 떄만 만들어지도록 조건문 삽입 IF NOT EXIST
-cur.execute(f"""
-            CREATE TABLE IF NOT EXIST items (
-	            id INTEGER PRIMARY KEY,
-	            title TEXT NOT NULL,
-	            image BLOB,
-	            price INTEGER NOT NULL,
-	            description TEXT NOT NULL,
-	            place TEXT NOT NULL,
-	            insertAt INTEGER NOT NULL
-            );
-            """)
+# cur.execute(f"""
+#             CREATE TABLE IF NOT EXIST items (
+# 	            id INTEGER PRIMARY KEY,
+# 	            title TEXT NOT NULL,
+# 	            image BLOB,
+# 	            price INTEGER NOT NULL,
+# 	            description TEXT NOT NULL,
+# 	            place TEXT NOT NULL,
+# 	            insertAt INTEGER NOT NULL
+#             )
+#             """)
 
 
 items = []
 
-#POST
+#POST item
 @app.post("/items")
 async def create_item(image: UploadFile,
                 title: Annotated[str, Form()],
@@ -58,7 +58,7 @@ async def create_item(image: UploadFile,
     return "200"
 
 
-#GET
+#GET item
 @app.get("/items")
 #access token 추가, 인증되어야지만 아래 명령 보내줄거야
 async def get_items():
@@ -92,12 +92,12 @@ def signup(id: Annotated[str, Form()],
                 VALUES("{id}", "{password}", "{name}", "{email}")
                 """)
     con.commit()
+    print(id, password)
     return "200"
 
 # GET user (Login)
-@app.get("/login")
-def login():
+# @app.get("/login")
+# def login():
     
-
 
 app.mount("/", StaticFiles(directory="static", html=True), name="static")
