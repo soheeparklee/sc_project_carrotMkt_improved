@@ -20,6 +20,21 @@ manager= LoginManager(SECRET, "/login")
 con= sqlite3.connect("db.db", check_same_thread=False)
 cur= con.cursor()
 
+# 배포했을 떄도 dbeaver에 의존하는 것이 아니라 바로 이 파일에서 테이블 만들 수 있도록 sql문 삽입
+#배포할 떄마다 테이블이 생성된다면 테이블이 중복되므로, 테이블이 없을 떄만 만들어지도록 조건문 삽입 IF NOT EXIST
+cur.execute(f"""
+            CREATE TABLE IF NOT EXIST items (
+	            id INTEGER PRIMARY KEY,
+	            title TEXT NOT NULL,
+	            image BLOB,
+	            price INTEGER NOT NULL,
+	            description TEXT NOT NULL,
+	            place TEXT NOT NULL,
+	            insertAt INTEGER NOT NULL
+            );
+            """)
+
+
 items = []
 
 #POST
@@ -63,8 +78,26 @@ async def get_img(item_id):
     image_bytes= cur.execute(f"""
                             SELECT image from items WHERE id= {item_id}
                             """).fetchone()[0]
-    return Response(content= bytes.fromhex(image_bytes))
+    return Response(content= bytes.fromhex(image_bytes), media_type="image/*")
 
+# POST user (SignUp)
+@app.post("/signup")
+def signup(id: Annotated[str, Form()],
+           password: Annotated[str, Form()],
+           name: Annotated[str, Form()],
+           email: Annotated[str, Form()]
+           ):
+    cur.execute(f"""
+                INSERT INTO users(id, password, name, email)
+                VALUES("{id}", "{password}", "{name}", "{email}")
+                """)
+    con.commit()
+    return "200"
+
+# GET user (Login)
+@app.get("/login")
+def login():
+    
 
 
 app.mount("/", StaticFiles(directory="static", html=True), name="static")
