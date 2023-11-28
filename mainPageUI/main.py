@@ -35,17 +35,15 @@ cur= con.cursor()
 #             """)
 
 
-items = []
-
 #POST item
 @app.post("/items")
 async def create_item(image: UploadFile,
-                title: Annotated[str, Form()],
-                price: Annotated[int, Form()],
-                description: Annotated[str, Form()],
-                place: Annotated[str, Form()],
-                insertAt: Annotated[int, Form()]
-                ):
+                    title: Annotated[str, Form()],
+                    price: Annotated[int, Form()],
+                    description: Annotated[str, Form()],
+                    place: Annotated[str, Form()],
+                    insertAt: Annotated[int, Form()],
+                    ):
     #이미지는 읽어오는데 시간 많이 걸리니까 
     image_bytes= await image.read()
     #sql lite 문법
@@ -60,12 +58,12 @@ async def create_item(image: UploadFile,
 
 #GET item
 @app.get("/items")
-#access token 추가, 인증되어야지만 아래 명령 보내줄거야
-async def get_items():
+
+async def get_items(user= Depends(manager)):
 
     #bring column name(각 값들이 무엇을 의미하는지 알기 위해)
     con.row_factory= sqlite3.Row
-    cur=con.cursor();
+    cur=con.cursor()
     rows= cur.execute(f"""
                     SELECT * from items;
                     """).fetchall()
@@ -74,7 +72,7 @@ async def get_items():
 #GET image
 @app.get("/images/{item_id}")
 async def get_img(item_id):
-    cur=con.cursor();
+    cur=con.cursor()
     image_bytes= cur.execute(f"""
                             SELECT image from items WHERE id= {item_id}
                             """).fetchone()[0]
@@ -84,35 +82,64 @@ async def get_img(item_id):
 # POST user (SignUp)
 @app.post("/signup")
 def signup(id: Annotated[str, Form()],
-           password: Annotated[str, Form()],
-           name: Annotated[str, Form()],
-           email: Annotated[str, Form()]
-           ):
+            password: Annotated[str, Form()],
+            name: Annotated[str, Form()],
+            email: Annotated[str, Form()]
+            ):
     cur.execute(f"""
                 INSERT INTO users(id, password, name, email)
                 VALUES("{id}", "{password}", "{name}", "{email}")
                 """)
     con.commit()
-    print(id, password)
+    # print(id, password)
     return "200"
 
 ### LOGIN ###
 # 같은 ID, pawword를 가진 사용자가 DB에 있는지 확인하는 함수
+# @manager.user_loader()
+# def query_user(id):
+#         con.row_factory = sqlite3.Row
+#         cur=con.cursor();
+#         user= cur.execute(f"""
+#             Select * from users WHERE id= "{id}"
+#             """).fetchone()
+#         return user
+
 @manager.user_loader()
-def query_user(id):
-        user= (f"""
-            Select * from users WHERE id= "{id}"
+def query_user(data):
+        WHERE_STATEMENT= f'id="{data}"'
+        if type(data) ==dict:
+                WHERE_STATEMENT= f'''id="{data["id"]}"'''
+
+        con.row_factory= sqlite3.Row
+        cur=con.cursor()
+        user= cur.execute(f"""
+            Select * from users WHERE {WHERE_STATEMENT}
             """).fetchone()
         return user
 
 # POST user (Login)
 @app.post("/login")
 def login(id: Annotated[str, Form()],
-          password: Annotated[str, Form()]
-          ):
-     user= query_user(id)
-     print(user)
-     return "200"
+        password: Annotated[str, Form()]
+        ):
+    user= query_user(id)
+
+    if not user: 
+        raise InvalidCredentialsException
+    elif password != user['password']:
+        raise InvalidCredentialsException
+        
+        
+    access_token= manager.create_access_token(data= {
+        "sub": {
+                "id": user["id"],
+                "name": user["name"],
+                "email": user["email"]
+                }
+    })
+
+    return {"access_token": access_token}
 
 
 

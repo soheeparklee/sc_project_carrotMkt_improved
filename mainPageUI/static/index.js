@@ -70,8 +70,17 @@ function renderData(data){
 }
 
 async function fetchList(){
-    const res= await fetch("/items")
+    const accessToken= window.localStorage.getItem("token");
+    const res= await fetch("/items", {
+        headers: {
+            Authorizaiton: `Bearer ${accessToken}`,
+        },
+    })
     const data= await res.json();
+    if(res.status === 401){ 
+        window.location.pathname= "/login.html"
+    }
+    
     renderData(data);
 }
 fetchList();
