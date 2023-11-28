@@ -114,8 +114,8 @@ def query_user(data):
         con.row_factory= sqlite3.Row
         cur=con.cursor()
         user= cur.execute(f"""
-            Select * from users WHERE {WHERE_STATEMENT}
-            """).fetchone()
+                Select * from users WHERE {WHERE_STATEMENT}
+                """).fetchone()
         return user
 
 # POST user (Login)

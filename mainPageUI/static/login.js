@@ -16,9 +16,10 @@ async function handleSubmit(event){
     const data= await res.json();
     const accessToken= data.access_token;
     console.log(accessToken);
+    if(accessToken){
     window.localStorage.setItem("token", accessToken);
-
     window.location.pathname= "/"
+    }
 
 
     // accessToken있으니까 버튼 누르면 item보여줘
@@ -39,12 +40,13 @@ async function handleSubmit(event){
     // });
     // infoDiv.appendChild(btn);
 
-    // if(res.status === 200){
-    //     alert("successfully logged in! Now you can write")
-    //     window.location.pathname = "/write.html";
-    // } else{
-    //     alert("login failed. Check your ID or password again!")
-    // }
+    if(res.status === 200){
+        alert("successfully logged in! Sending you to main page...")
+        window.location.pathname = "/";
+    } else{
+        alert("login failed. Check your ID or password again!")
+        window.location.pathname = "/login.html";
+    }
 }
 
 form.addEventListener("submit", handleSubmit)
