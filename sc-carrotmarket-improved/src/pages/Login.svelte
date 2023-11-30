@@ -1,3 +1,7 @@
+<script>
+  import Footer from '../components/Footer.svelte';
+</script>
+
 <form id="login-form" action="/login" method="POST">
   <h1>Welcome! Please Log-in</h1>
   <div>
@@ -13,3 +17,5 @@
   </div>
   <div id="info"></div>
 </form>
+
+<Footer />
