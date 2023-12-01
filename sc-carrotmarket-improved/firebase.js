@@ -5,13 +5,13 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDg7yMs7AzjmeL9_IbnHC4Opr6w3arJPkI",
-  authDomain: "sc-carrotmarket-improved-563ec.firebaseapp.com",
-  databaseURL: "https://sc-carrotmarket-improved-563ec-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "sc-carrotmarket-improved-563ec",
-  storageBucket: "sc-carrotmarket-improved-563ec.appspot.com",
-  messagingSenderId: "597909697827",
-  appId: "1:597909697827:web:7ec58dbdfd62dd7b660896"
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  databaseURL: import.meta.env.VITE_DATABSEURL,
+  projectId: import.meta.env.VITE_PROJECTID,
+  storageBucket: import.meta.env.VITE_STORAGEBUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGINGSENDERID,
+  appId: import.meta.env.VITE_APPID
 };
 
 
