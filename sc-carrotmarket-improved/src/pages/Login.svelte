@@ -18,4 +18,4 @@
   <div id="info"></div>
 </form>
 
-<Footer />
+<Footer where="login"/>

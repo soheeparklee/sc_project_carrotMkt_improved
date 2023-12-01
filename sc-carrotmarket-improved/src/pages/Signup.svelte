@@ -32,4 +32,4 @@
   </div>
 </form>
 
-<Footer />
+<Footer where="signup"/>
