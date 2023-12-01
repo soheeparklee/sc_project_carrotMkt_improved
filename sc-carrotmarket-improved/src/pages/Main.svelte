@@ -3,8 +3,9 @@
 
   //시계만들기
   const time = new Date();
-  const hour = time.getHours();
-  const min = time.getMinutes();
+  const hour = String(time.getHours()).padStart(2, '0');
+  const min = String(time.getMinutes()).padStart(2, '0');
+
   //footer모듈화
   import Footer from '../components/Footer.svelte';
   //read data realtime database
@@ -58,7 +59,7 @@
 
   <div class="menu-bar">
     <div class="menu-bar-town">
-      역삼 1동
+      신정 3동
       <img src="assets/chevron.svg" alt="chevron" />
     </div>
     <div class="menu-bar-icons">

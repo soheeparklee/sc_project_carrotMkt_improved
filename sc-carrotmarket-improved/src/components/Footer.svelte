@@ -1,8 +1,14 @@
 <script>
+  import Mypage from '../pages/Mypage.svelte';
+
   export let where;
 
   const moveToMain = () => {
     window.location.hash = '/';
+  };
+
+  const moveToMypage = () => {
+    window.location.hash = '/mypage';
   };
 </script>
 
@@ -39,10 +45,14 @@
     <div class="footer-box-title">채팅</div>
   </div>
 
-  <div class="footer-box">
+  <button class="footer-box" on:click={moveToMypage}>
     <div class="footer-box-icons">
-      <img src="./assets/user.svg" alt="user" />
+      {#if where === 'mypage'}
+        <img src="./assets/user_full.svg" alt="user_full" />
+      {:else}
+        <img src="./assets/user.svg" alt="user" />
+      {/if}
     </div>
     <div class="footer-box-title">나의 당근</div>
-  </div>
+  </button>
 </footer>

@@ -1,16 +1,19 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 import { getStorage } from "firebase/storage";
+import { getAuth } from "firebase/auth";
 
-// TODO: Replace the following with y our app's Firebase project configuration
-// See: https://firebase.google.com/docs/web/learn-more#config-object
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  // ...
-  // The value of `databaseURL` depends on the location of the database
-  databaseURL: "https://sc-carrotmarket-improved-563ec-default-rtdb.asia-southeast1.firebasedatabase.app/",
-
-  storageBucket: 'gs://sc-carrotmarket-improved-563ec.appspot.com'
+  apiKey: "AIzaSyDg7yMs7AzjmeL9_IbnHC4Opr6w3arJPkI",
+  authDomain: "sc-carrotmarket-improved-563ec.firebaseapp.com",
+  databaseURL: "https://sc-carrotmarket-improved-563ec-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "sc-carrotmarket-improved-563ec",
+  storageBucket: "sc-carrotmarket-improved-563ec.appspot.com",
+  messagingSenderId: "597909697827",
+  appId: "1:597909697827:web:7ec58dbdfd62dd7b660896"
 };
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -20,3 +23,6 @@ const database = getDatabase(app);
 
 // Initialize Cloud Storage and get a reference to the service
 const storage = getStorage(app);
+
+//Authetication
+const auth = getAuth(app);
